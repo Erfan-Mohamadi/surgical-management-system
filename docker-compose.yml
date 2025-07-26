@@ -1,0 +1,56 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: php:8.2-cli
+    container_name: myserver-app
+    working_dir: /var/www/html
+    user: "${UID}:${GID}"
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "80:80"
+    depends_on:
+      - db  # Changed from myserver-db to db
+    restart: always
+    networks:
+      - myserver-network
+    command: php artisan serve --host=0.0.0.0 --port=80
+
+  db:  # This is the correct service name
+    image: mysql:8.0
+    container_name: myserver-db  # This is just the container name
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: myserver_db
+      MYSQL_USER: Erph
+      MYSQL_PASSWORD: Erfan9635
+    volumes:
+      - myserver-dbdata:/var/lib/mysql
+    networks:
+      - myserver-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: myserver-phpmyadmin
+    restart: always
+    ports:
+      - "8082:80"
+    environment:
+      PMA_HOST: db  # Reference the service name, not container name
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - db
+    networks:
+      - myserver-network
+
+volumes:
+  myserver-dbdata:
+
+networks:
+  myserver-network:
+    driver: bridge
