@@ -31,6 +31,6 @@ class DoctorStoreRequest extends FormRequest
             'status' => 'required|boolean',
             'roles' => 'sometimes|array',
             'roles.*' => 'exists:doctor_roles,id',
-            ];
+        ];
     }
 }

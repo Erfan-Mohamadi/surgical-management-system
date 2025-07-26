@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Speciality\SpecialityStoreRequest;
 use App\Http\Requests\Admin\Speciality\SpecialityUpdateRequest;
 use App\Models\Speciality;
-use Illuminate\Support\Facades\Cache;
 
 class SpecialityController extends Controller
 {
@@ -33,6 +32,7 @@ class SpecialityController extends Controller
     public function index()
     {
         $specialities = Speciality::query()->latest('id')->paginate(10);
+
         return view('admin.specialities.index', compact('specialities'));
     }
 
@@ -57,7 +57,7 @@ class SpecialityController extends Controller
         ]);
 
         // Log creation (Persian)
-        Helper::addToLog('تخصص‌ها',$speciality,'تخصص ثبت شد',
+        Helper::addToLog('تخصص‌ها', $speciality, 'تخصص ثبت شد',
             [
                 'عنوان تخصص' => $speciality->title,
                 'وضعیت' => $this->getStatusLabel($speciality->status),
@@ -90,14 +90,14 @@ class SpecialityController extends Controller
     public function update(SpecialityUpdateRequest $request, Speciality $speciality)
     {
         $speciality->update([
-            'title'  => $request->title,
+            'title' => $request->title,
             'status' => $request->status ?? $speciality->status,
         ]);
 
         // Log update (Persian)
         Helper::addToLog('تخصص‌ها', $speciality, 'تخصص به‌روزرسانی شد', [
             'عنوان تخصص' => $speciality->title,
-            'وضعیت'      => $this->getStatusLabel($speciality->status),
+            'وضعیت' => $this->getStatusLabel($speciality->status),
         ]);
 
         return redirect()->route('admin.specialities.index')
@@ -112,7 +112,7 @@ class SpecialityController extends Controller
         $speciality->delete();
 
         // Log deletion (Persian)
-        Helper::addToLog('تخصص‌ها',$speciality,'تخصص حذف شد',
+        Helper::addToLog('تخصص‌ها', $speciality, 'تخصص حذف شد',
             [
                 'عنوان تخصص' => $speciality->title,
                 'وضعیت' => $this->getStatusLabel($speciality->status),

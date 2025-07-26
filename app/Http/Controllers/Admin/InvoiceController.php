@@ -32,7 +32,7 @@ class InvoiceController extends Controller
         $invoices = Invoice::with('doctor')
             ->when($doctorName, function (Builder $query) use ($doctorName) {
                 return $query->whereHas('doctor', function ($q) use ($doctorName) {
-                    $q->where('name', 'like', '%' . $doctorName . '%');
+                    $q->where('name', 'like', '%'.$doctorName.'%');
                 });
             })
             ->when($status, function (Builder $query) use ($status) {
@@ -120,7 +120,7 @@ class InvoiceController extends Controller
         DoctorSurgery::whereIn('id', $selectedIds)->update(['invoice_id' => $invoice->id]);
 
         // Log creation (Persian)
-        Helper::addToLog('صورت حساب',$invoice,'صورت حساب ایجاد شد',
+        Helper::addToLog('صورت حساب', $invoice, 'صورت حساب ایجاد شد',
             [
                 'نام دکتر' => $doctorName,
                 'مبلغ کل' => $totalAmount,
@@ -172,7 +172,7 @@ class InvoiceController extends Controller
         DoctorSurgery::whereIn('id', $selectedIds)->update(['invoice_id' => $invoice->id]);
 
         // Log bulk creation (Persian)
-        Helper::addToLog('فاکتور',$invoice,'فاکتور ایجاد شد.',
+        Helper::addToLog('فاکتور', $invoice, 'فاکتور ایجاد شد.',
             [
                 'نام دکتر' => $doctorName,
                 'مبلغ کل' => $totalAmount,
@@ -194,6 +194,7 @@ class InvoiceController extends Controller
     public function show($id)
     {
         $invoice = Invoice::with(['doctor', 'doctorSurgeries.surgery', 'payments'])->findOrFail($id);
+
         return view('admin.invoices.show', compact('invoice'));
     }
 
@@ -225,7 +226,7 @@ class InvoiceController extends Controller
             $invoice->delete();
 
             // Log deletion (Persian)
-            Helper::addToLog('فاکتور',$invoice,'فاکتور و پرداخت‌های مرتبط حذف شدند',
+            Helper::addToLog('فاکتور', $invoice, 'فاکتور و پرداخت‌های مرتبط حذف شدند',
                 [
                     'نام دکتر' => $doctorName,
                     'مبلغ کل' => $amount,

@@ -19,6 +19,7 @@ class DoctorRoleController extends Controller
     public function index()
     {
         $roles = DoctorRole::query()->oldest('id')->paginate(10);
+
         return view('admin.doctor_roles.index', compact('roles'));
     }
 
@@ -64,7 +65,7 @@ class DoctorRoleController extends Controller
         $doctorRole->update($request->all());
 
         // Log the update action (Persian)
-        Helper::addToLog('نقش دکتر',$doctorRole,'نقش‌ها ویرایش شد',
+        Helper::addToLog('نقش دکتر', $doctorRole, 'نقش‌ها ویرایش شد',
             [
                 'نقش' => $doctorRole->title,
                 'سهم' => $doctorRole->quota,

@@ -81,14 +81,14 @@ class Insurance extends Model
     protected static function booted()
     {
         // Clear cache on save (create/update)
-        static::saved(fn() => self::clearInsuranceCaches());
+        static::saved(fn () => self::clearInsuranceCaches());
 
         // Clear cache on delete
-        static::deleted(fn() => self::clearInsuranceCaches());
+        static::deleted(fn () => self::clearInsuranceCaches());
 
         // Prevent deletion if used in surgeries
         static::deleting(function (Insurance $insurance) {
-            if (!$insurance->isDeletable()) {
+            if (! $insurance->isDeletable()) {
                 abort(403, 'این بیمه در جراحی‌ها استفاده شده و قابل حذف نیست');
             }
         });

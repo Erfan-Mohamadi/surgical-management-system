@@ -83,9 +83,9 @@ class DoctorRole extends Model
     protected static function booted()
     {
         // Clear cache on save (create/update)
-        static::saved(fn() => self::clearDoctorRolesCache());
+        static::saved(fn () => self::clearDoctorRolesCache());
 
         // Clear cache on delete
-        static::deleted(fn() => self::clearDoctorRolesCache());
+        static::deleted(fn () => self::clearDoctorRolesCache());
     }
 }

@@ -75,7 +75,7 @@ class PaymentController extends Controller
      */
     public function updateStatus(Payment $payment)
     {
-        $payment->status = !$payment->status;
+        $payment->status = ! $payment->status;
         $payment->save();
 
         // Log status update (Persian)

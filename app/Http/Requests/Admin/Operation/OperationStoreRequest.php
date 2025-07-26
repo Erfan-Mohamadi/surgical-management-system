@@ -25,6 +25,6 @@ class OperationStoreRequest extends FormRequest
             'name' => 'required|string|max:100|unique:operations',
             'price' => 'required|integer|min:0',
             'status' => 'sometimes|boolean',
-            ];
+        ];
     }
 }

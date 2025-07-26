@@ -43,6 +43,7 @@ class User extends Authenticatable
     |-----------------------------------*/
 
     protected static $logAttributes = ['name', 'email', 'password'];
+
     protected static $logOnlyDirty = true;
 
     public function getActivitylogOptions(): LogOptions
@@ -61,7 +62,6 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
-
 
     /*------------------------------------
     | Authentication Methods

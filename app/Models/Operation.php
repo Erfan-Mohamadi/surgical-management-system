@@ -76,10 +76,10 @@ class Operation extends Model
     protected static function booted(): void
     {
         // Clear cache on save (create/update)
-        static::saved(fn() => self::clearOperationsCache());
+        static::saved(fn () => self::clearOperationsCache());
 
         // Clear cache on delete
-        static::deleted(fn() => self::clearOperationsCache());
+        static::deleted(fn () => self::clearOperationsCache());
 
         // Prevent deletion if used in surgeries
         static::deleting(function (Operation $operation) {

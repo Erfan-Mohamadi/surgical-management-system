@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Insurance\InsuranceStoreRequest;
 use App\Http\Requests\Admin\Insurance\InsuranceUpdateRequest;
 use App\Models\Insurance;
-use Illuminate\Http\Request;
 
 class InsuranceController extends Controller
 {
@@ -33,6 +32,7 @@ class InsuranceController extends Controller
     public function index()
     {
         $insurances = Insurance::query()->latest('id')->paginate(10);
+
         return view('admin.insurances.index', compact('insurances'));
     }
 
@@ -53,7 +53,7 @@ class InsuranceController extends Controller
         $insurance = Insurance::create($validated);
 
         // Log creation (Persian)
-        Helper::addToLog('بیمه',$insurance,'بیمه جدید ثبت شد',
+        Helper::addToLog('بیمه', $insurance, 'بیمه جدید ثبت شد',
             [
                 'نام' => $insurance->name,
                 'نوع' => $this->getTypeLabel($insurance->type),
@@ -90,7 +90,7 @@ class InsuranceController extends Controller
         $insurance->update($validated);
 
         // Log update (Persian)
-        Helper::addToLog('بیمه',$insurance,'بیمه ویرایش شد',
+        Helper::addToLog('بیمه', $insurance, 'بیمه ویرایش شد',
             [
                 'نام' => $insurance->name,
                 'نوع' => $this->getTypeLabel($insurance->type),
@@ -107,7 +107,7 @@ class InsuranceController extends Controller
      */
     public function destroy(Insurance $insurance)
     {
-        if (!$insurance->isDeletable()) {
+        if (! $insurance->isDeletable()) {
             return redirect()->route('admin.insurances.index')
                 ->with('error', 'این بیمه در جراحی‌ها استفاده شده و قابل حذف نیست');
         }

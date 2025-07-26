@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Operation\OperationStoreRequest;
 use App\Http\Requests\Admin\Operation\OperationUpdateRequest;
 use App\Models\Operation;
-use Illuminate\Http\Request;
 
 class OperationController extends Controller
 {
@@ -21,6 +20,7 @@ class OperationController extends Controller
     public function index()
     {
         $operations = Operation::query()->latest('id')->paginate(10);
+
         return view('admin.operations.index', compact('operations'));
     }
 
@@ -42,7 +42,7 @@ class OperationController extends Controller
         $statusLabel = $operation->status ? 'فعال' : 'غیرفعال';
 
         // Log creation (Persian)
-        Helper::addToLog('عمل',$operation,'عمل ثبت شد',
+        Helper::addToLog('عمل', $operation, 'عمل ثبت شد',
             [
                 'نام' => $operation->name,
                 'قیمت (تومان)' => $operation->price,
@@ -80,7 +80,7 @@ class OperationController extends Controller
         $statusLabel = $operation->status ? 'فعال' : 'غیرفعال';
 
         // Log update (Persian)
-        Helper::addToLog('عمل',$operation,'عمل ویرایش شد',
+        Helper::addToLog('عمل', $operation, 'عمل ویرایش شد',
             [
                 'نام' => $operation->name,
                 'قیمت (تومان)' => $operation->price,
@@ -97,7 +97,7 @@ class OperationController extends Controller
      */
     public function destroy(Operation $operation)
     {
-        if (!$operation->isDeletable()) {
+        if (! $operation->isDeletable()) {
             return redirect()->route('admin.operations.index')
                 ->with('error', 'این جراحی به دلیل داشتن پرداخت یا فاکتور قابل حذف نیست.');
         }
@@ -106,7 +106,7 @@ class OperationController extends Controller
         $operation->deleteWithRelations();
 
         // Log deletion (Persian)
-        Helper::addToLog('عمل',$operation,'عمل حذف شد',
+        Helper::addToLog('عمل', $operation, 'عمل حذف شد',
             [
                 'نام' => $operation->name,
                 'قیمت (تومان)' => $operation->price,

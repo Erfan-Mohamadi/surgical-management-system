@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Admin\Peyment;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Invoice;
+use Illuminate\Foundation\Http\FormRequest;
 
 class PeymentStoreRequest extends FormRequest
 {
@@ -26,5 +26,4 @@ class PeymentStoreRequest extends FormRequest
             'description' => 'nullable|string',
         ];
     }
-
 }

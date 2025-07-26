@@ -64,7 +64,6 @@ class Surgery extends Model
             ->withTimestamps();
     }
 
-
     public function doctorSurgeries()
     {
         return $this->hasMany(DoctorSurgery::class);
@@ -94,7 +93,6 @@ class Surgery extends Model
             ->doesntExist();
     }
 
-
     public static function booted()
     {
         static::deleting(function (Surgery $surgery) {
@@ -110,10 +108,10 @@ class Surgery extends Model
         });
     }
 
-
     public function calculateDoctorAmount(int $percent): int
     {
         $totalOperationCost = $this->operations()->sum('price');
+
         return (int) round($totalOperationCost * ($percent / 100));
     }
 
@@ -138,14 +136,14 @@ class Surgery extends Model
     public function assignDoctors(array $doctorRolesInput, array $doctorRoles): void
     {
         foreach ($doctorRolesInput as $roleId => $doctorId) {
-            if (empty($doctorId) || !isset($doctorRoles[$roleId])) {
+            if (empty($doctorId) || ! isset($doctorRoles[$roleId])) {
                 continue;
             }
             $amount = $this->calculateDoctorAmount($doctorRoles[$roleId]);
             $this->doctorSurgeries()->create([
-                'doctor_id'      => $doctorId,
+                'doctor_id' => $doctorId,
                 'doctor_role_id' => $roleId,
-                'amount'         => $amount,
+                'amount' => $amount,
             ]);
         }
     }

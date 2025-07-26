@@ -12,7 +12,6 @@ use App\Models\Operation;
 use App\Models\Surgery;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class SurgeryController extends Controller
 {
@@ -34,13 +33,13 @@ class SurgeryController extends Controller
         // Build filtered query
         $surgeries = Surgery::with(['basicInsurance', 'supplementaryInsurance', 'operations'])
             ->when($patientName, function (Builder $query) use ($patientName) {
-                return $query->where('patient_name', 'like', '%' . $patientName . '%');
+                return $query->where('patient_name', 'like', '%'.$patientName.'%');
             })
             ->when($patientNationalCode, function (Builder $query) use ($patientNationalCode) {
-                return $query->where('patient_national_code', 'like', '%' . $patientNationalCode . '%');
+                return $query->where('patient_national_code', 'like', '%'.$patientNationalCode.'%');
             })
             ->when($documentNumber, function (Builder $query) use ($documentNumber) {
-                return $query->where('document_number', 'like', '%' . $documentNumber . '%');
+                return $query->where('document_number', 'like', '%'.$documentNumber.'%');
             })
             ->when($surgeriedAt, function (Builder $query) use ($surgeriedAt) {
                 return $query->whereDate('surgeried_at', '=', $surgeriedAt);
@@ -92,7 +91,7 @@ class SurgeryController extends Controller
         $surgery->assignDoctors($doctorRolesInput, $doctorRoles);
 
         // Log creation (Persian)
-        Helper::addToLog('جراحی',$surgery,'جراحی ثبت شد',
+        Helper::addToLog('جراحی', $surgery, 'جراحی ثبت شد',
             [
                 'نام بیمار' => $surgery->patient_name,
                 'شماره پرونده' => $surgery->document_number,
@@ -175,7 +174,7 @@ class SurgeryController extends Controller
         $surgery->assignDoctors($doctorRolesInput, $doctorRoles);
 
         // Log update (Persian)
-        Helper::addToLog('جراحی',$surgery,'جراحی ویرایش شد',
+        Helper::addToLog('جراحی', $surgery, 'جراحی ویرایش شد',
             [
                 'نام بیمار' => $surgery->patient_name,
                 'شماره پرونده' => $surgery->document_number,
@@ -195,7 +194,7 @@ class SurgeryController extends Controller
      */
     public function destroy(Surgery $surgery)
     {
-        if (!$surgery->isDeletable()) {
+        if (! $surgery->isDeletable()) {
             return redirect()->route('admin.surgeries.index')
                 ->with('error', 'این جراحی به دلیل داشتن پرداخت یا فاکتور قابل حذف نیست.');
         }
@@ -203,7 +202,7 @@ class SurgeryController extends Controller
         $surgery->deleteWithRelations();
 
         // Log deletion (Persian)
-        Helper::addToLog('جراحی',$surgery,'جراحی  حذف شد',
+        Helper::addToLog('جراحی', $surgery, 'جراحی  حذف شد',
             [
                 'نام بیمار' => $surgery->patient_name,
                 'شماره پرونده' => $surgery->document_number,

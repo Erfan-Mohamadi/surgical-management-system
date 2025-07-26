@@ -9,10 +9,8 @@ use App\Http\Requests\Admin\Doctor\DoctorUpdateRequest;
 use App\Models\Doctor;
 use App\Models\DoctorRole;
 use App\Models\Speciality;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
 
 class DoctorController extends Controller
 {
@@ -27,7 +25,7 @@ class DoctorController extends Controller
     {
         $doctors = Doctor::with('speciality:id,title')
             ->latest('id')
-            ->select(['id','name','speciality_id','national_code','status','phone'])
+            ->select(['id', 'name', 'speciality_id', 'national_code', 'status', 'phone'])
             ->paginate(10);
 
         return view('admin.doctors.index', compact('doctors'));
@@ -65,12 +63,12 @@ class DoctorController extends Controller
             'status' => $validated['status'],
         ]);
 
-        if (!empty($validated['roles'])) {
+        if (! empty($validated['roles'])) {
             $doctor->roles()->sync($validated['roles']);
         }
 
         // Log creation
-        Helper::addToLog('دکتر',$doctor,'پزشک جدید ثبت شد',
+        Helper::addToLog('دکتر', $doctor, 'پزشک جدید ثبت شد',
             ['نام' => $doctor->name]
         );
 
@@ -120,7 +118,7 @@ class DoctorController extends Controller
             'status' => $validated['status'],
         ];
 
-        if (!empty($validated['password'])) {
+        if (! empty($validated['password'])) {
             $updateData['password'] = Hash::make($validated['password']);
         }
 
@@ -128,7 +126,7 @@ class DoctorController extends Controller
         $doctor->roles()->sync($validated['roles'] ?? []);
 
         // Log update
-        Helper::addToLog('دکتر',$doctor,'طلاعات پزشک ویرایش شد',
+        Helper::addToLog('دکتر', $doctor, 'طلاعات پزشک ویرایش شد',
             ['نام' => $doctor->name]
         );
 
@@ -141,7 +139,7 @@ class DoctorController extends Controller
      */
     public function destroy(Doctor $doctor)
     {
-        if (!$doctor->isDeletable()) {
+        if (! $doctor->isDeletable()) {
             return redirect()->route('admin.doctors.index')
                 ->with('error', 'این جراحی به دلیل داشتن پرداخت یا فاکتور قابل حذف نیست.');
         }
@@ -149,7 +147,7 @@ class DoctorController extends Controller
         $doctor->deleteWithRelations();
 
         // Log deletion
-        Helper::addToLog('دکتر',$doctor,'پزشک حذف شد',
+        Helper::addToLog('دکتر', $doctor, 'پزشک حذف شد',
             ['نام' => $doctor->name]
         );
 

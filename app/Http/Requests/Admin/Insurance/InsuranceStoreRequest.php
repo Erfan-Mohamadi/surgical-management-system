@@ -26,6 +26,6 @@ class InsuranceStoreRequest extends FormRequest
             'type' => 'required|in:basic,supplementary',
             'discount' => 'required|integer|min:0|max:100',
             'status' => 'boolean',
-            ];
+        ];
     }
 }

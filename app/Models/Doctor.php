@@ -44,7 +44,7 @@ class Doctor extends Authenticatable
     ];
 
     /* ======================= */
-    /*      Model Events        */
+    /*      Model Events */
     /* ======================= */
 
     /**
@@ -66,7 +66,7 @@ class Doctor extends Authenticatable
     }
 
     /* ======================= */
-    /*      Relationships      */
+    /*      Relationships */
     /* ======================= */
 
     public function speciality()
@@ -97,7 +97,7 @@ class Doctor extends Authenticatable
     }
 
     /* ======================= */
-    /*        Methods          */
+    /*        Methods */
     /* ======================= */
 
     /**
@@ -110,7 +110,7 @@ class Doctor extends Authenticatable
     }
 
     /* ======================= */
-    /*      Helper Methods     */
+    /*      Helper Methods */
     /* ======================= */
 
     public function isDeletable(): bool

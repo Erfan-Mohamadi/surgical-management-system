@@ -16,7 +16,7 @@ class SpecialityUpdateRequest extends FormRequest
         $speciality = $this->route('speciality');
 
         return [
-            'title'  => 'required|string|max:191|unique:specialities,title,' . $speciality->id,
+            'title' => 'required|string|max:191|unique:specialities,title,'.$speciality->id,
             'status' => 'boolean',
         ];
     }

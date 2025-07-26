@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
 use App\Models\DoctorSurgery;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class DoctorReportController extends Controller
 {
@@ -67,7 +67,7 @@ class DoctorReportController extends Controller
 
             // Apply payment status filter if not 'all'
             $payments = $payment_status !== 'all'
-                ? $payments->where('status', (int)$payment_status)
+                ? $payments->where('status', (int) $payment_status)
                 : $payments->whereIn('status', [0, 1]);
 
             $filtered_amount = $payments->sum('amount');
@@ -78,9 +78,9 @@ class DoctorReportController extends Controller
         // Return report view with filtered data
         return view('admin.reports.doctor.show', [
             'doctor' => $doctor,
-            'doctorSurgeries' => $doctorSurgeries->filter(fn($s) => $s->filtered_amount > 0),
+            'doctorSurgeries' => $doctorSurgeries->filter(fn ($s) => $s->filtered_amount > 0),
             'totalAmount' => $totalAmount,
-            'payment_status' => $payment_status
+            'payment_status' => $payment_status,
         ]);
     }
 }

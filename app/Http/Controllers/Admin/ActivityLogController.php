@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class ActivityLogController extends Controller
 {
@@ -29,7 +29,7 @@ class ActivityLogController extends Controller
             // Filter by causer name
             ->when($causerName, function (Builder $query) use ($causerName) {
                 $query->whereHas('causer', function ($q) use ($causerName) {
-                    $q->where('name', 'like', '%' . $causerName . '%');
+                    $q->where('name', 'like', '%'.$causerName.'%');
                 });
             })
             // Filter by log name
@@ -38,7 +38,7 @@ class ActivityLogController extends Controller
             })
             // Filter by description
             ->when($description, function (Builder $query) use ($description) {
-                $query->where('description', 'like', '%' . $description . '%');
+                $query->where('description', 'like', '%'.$description.'%');
             })
             // Filter by start date
             ->when($startDate, function (Builder $query) use ($startDate) {

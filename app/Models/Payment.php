@@ -56,7 +56,7 @@ class Payment extends Model
 
     public function getFormattedAmountAttribute(): string
     {
-        return number_format($this->amount) . ' تومان';
+        return number_format($this->amount).' تومان';
     }
 
     /*------------------------------------
