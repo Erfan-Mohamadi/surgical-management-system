@@ -6,7 +6,7 @@
     <!--begin::Copyright-->
     <strong>
         Copyright &copy; 2014-{{ now()->year }}&nbsp;
-        <a href="http://shetabamooz.com" class="text-decoration-none">شتاب آموز</a>.
+        <a href="http://erfanos.com" class="text-decoration-none">عرفان محمدی</a>.
     </strong>
     تمامی حقوق این وبسایت محفوظ می باشد.
     <!--end::Copyright-->

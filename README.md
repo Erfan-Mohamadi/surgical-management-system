@@ -1,61 +1,185 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="300" alt="Laravel Logo">
 </p>
 
-## About Laravel
+# 🏥 Surgical Management System
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+A Laravel-based web application for managing surgeries, doctors, payments, and insurance within clinical or hospital environments.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This project includes:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- ✅ Surgery scheduling
+- 👨‍⚕️ Doctor and specialist management
+- 💳 Invoice and payment workflows
+- 🔐 Role-based access control
+- 📋 Insurance tracking (basic & supplementary)
+- 🕓 Activity logging and user tracking
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 📦 Tech Stack
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- PHP (Laravel Framework)
+- MySQL
+- Docker & Docker Compose
+- Tailwind CSS (via Laravel Mix)
+- Redis (optional for queue)
+- Laravel Breeze (authentication scaffolding)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🚀 Getting Started (via Docker)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Follow these steps to get the system running locally.
 
-### Premium Partners
+### 1. Clone the repository
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+git clone https://github.com/Erfan-Mohamadi/surgical-management-system.git
+cd surgical-management-system
+```
 
-## Contributing
+### 2. Copy environment file
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+cp .env.example .env
+```
 
-## Code of Conduct
+Edit `.env` and set your DB credentials, mail settings, etc.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3. Build & run Docker containers
 
-## Security Vulnerabilities
+```bash
+docker-compose up -d --build
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 4. Install backend & frontend dependencies
 
-## License
+```bash
+docker-compose exec app composer install
+docker-compose exec app npm install && npm run dev
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 5. Generate application key
+
+```bash
+docker-compose exec app php artisan key:generate
+```
+
+### 6. Run database migrations and seed admin user
+
+```bash
+docker-compose exec app php artisan migrate --seed
+```
+
+Admin credentials (defined in `UserSeeder.php`):
+
+```
+mobile:   0999999999
+Email:    admin@test.com  
+Password: password
+```
+
+---
+
+## ⚙️ Additional Setup Steps
+
+### 7. Compile production assets (optional)
+
+```bash
+docker-compose exec app npm run build
+```
+
+### 8. Create symbolic storage link
+
+```bash
+docker-compose exec app php artisan storage:link
+```
+
+### 9. Set correct permissions (if needed)
+
+```bash
+docker-compose exec app chmod -R 775 storage bootstrap/cache
+```
+
+---
+
+## ✉️ Mail Configuration (Optional)
+
+To send emails (e.g., password reset, notifications), update your `.env` file:
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_mailtrap_user
+MAIL_PASSWORD=your_mailtrap_password
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=admin@surgical-system.local
+MAIL_FROM_NAME="Surgical System"
+```
+
+---
+
+## ⚡ Queue Setup (Optional)
+
+If using queued jobs (e.g., for emails):
+
+```bash
+docker-compose exec app php artisan queue:work
+```
+
+In production, use [Supervisor](https://laravel.com/docs/queues#supervisor-configuration) to keep queue workers running.
+
+---
+
+## 🧪 Running Tests
+
+```bash
+docker-compose exec app php artisan test
+```
+
+---
+
+## 📁 Folder Structure Highlights
+
+| Folder                          | Purpose                            |
+|---------------------------------|------------------------------------|
+| `app/Http/Controllers/Admin/`   | Admin controllers                  |
+| `app/Models/`                   | Eloquent models                    |
+| `app/Http/Requests/`            | Form request validation            |
+| `database/seeders/`             | Seeder files (e.g., admin user)    |
+| `resources/views/`              | Blade templates                    |
+| `routes/web.php`                | Web routes                         |
+
+---
+
+## 🔐 Default Admin Login
+
+```text
+Email:    admin@test.com
+Password: password
+```
+
+---
+
+## ✅ Production Recommendations
+
+- Set `APP_ENV=production` and `APP_DEBUG=false`
+- Use NGINX + HTTPS (Let's Encrypt)
+- Run `npm run build` for optimized frontend assets
+- Use Supervisor for queue management
+- Regularly back up the database and `.env` file
+
+---
+
+## 🙌 Contributing
+
+Feel free to open an issue or submit a PR!  
+Please follow PSR-12 coding standards and test your changes locally before committing.
+
+---
+
+## 📝 License
+
+This project is open-sourced under the [MIT license](LICENSE).
