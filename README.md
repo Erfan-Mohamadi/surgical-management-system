@@ -32,3 +32,11 @@ Follow these steps to run the project locally with Docker.
 ```bash
 git clone https://github.com/Erfan-Mohamadi/surgical-management-system.git
 cd surgical-management-system
+
+---
+
+### 2. Copy Environment File
+
+```bash
+cp .env.example .env
+## ⚙️ Update any values inside .env as needed (DB credentials, mail, etc.)
